@@ -32,15 +32,18 @@ class Grid {
         for (let i = 0; i < this.height; i++){
             for (let j = 0; j < this.width; j++){
                 //random integer from 0 to 1
-                let ran = Math.floor(Math.random() * 3);
+                let ran = Math.floor(Math.random() * 5);
                 if (ran == 0){
-                    this.setCell(i, j, new Cell ("E"));
+                    this.setCell(i, j, new Cell ("F"));
                 }
                 else if (ran == 1){
                     this.setCell(i, j, new Cell ("W"));
                 }
+                else if (ran == 2){
+                    this.setCell(i, j, new Cell ("S"));
+                }
                 else{
-                    this.setCell(i, j, new Cell ("F"));
+                    this.setCell(i, j, new Cell ("E"));
                 }
             }
         }
@@ -79,19 +82,6 @@ class Cell {
 
 
 
-//creates a grid from width and height, has every cell as empty ("E")
-function createGrid(width, height){
-    var row = []
-    var grid = []
-    for (i = 0; i < width; i++){
-        row.push("E");
-    }
-    for (i = 0; i < height; i++){
-        grid.push(row);
-    }
-    return grid;
-}
-
 var mainGrid;
 
 function drawGrid(grid){
@@ -104,19 +94,24 @@ function drawGrid(grid){
             let xPos = j * grid.cellSize;
             let yPos = i * grid.cellSize;
             fill(currentCell.color);
+            noStroke();
             square(xPos, yPos, grid.cellSize);
         }
     }
 }
 
+function eller_alg(grid){
+    
+}
+
 
 
 function setup() {
-    createCanvas(1000, 1000);
+    createCanvas(displayWidth, displayHeight);
     mainGrid = new Grid (100, 100, 10);
     mainGrid.clearGrid();
     background(51);
-    frameRate(30);
+    frameRate(10);
 }
 
 
