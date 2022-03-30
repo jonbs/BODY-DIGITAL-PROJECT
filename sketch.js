@@ -9,29 +9,28 @@ class Grid {
     this.cellSize = cellSize;
   }
     getCell(x, y){
-        return this.gridArray[x][y];
+        return this.gridArray[y][x];
     } 
 
-    setCell(x, y, cell){
-        this.gridArray[x][y] = cell;
+    setCell(x, y, cl){
+        this.gridArray[y][x] = cl;
     }
 
-    createEmptyArray (){
-        let row = []
-        let ar = []
+    clearGrid (){
+        let ar = [];
         for (let i = 0; i < this.width; i++){
-            let tempCell = new Cell("E")
-            row.push(tempCell);   
-        }
-        for (let k = 0; k < this.height; k++){
+            let row = [];
+            for (let j = 0; j < this.width; j++){
+                row.push (new Cell ("E"));
+            }
             ar.push(row);
         }
-            this.gridArray = ar;
+        this.gridArray = ar;
     }
 
     randomizeArray(){
-        for (i = 0; i < this.height; i++){
-            for (j = 0; j < this.width; j++){
+        for (let i = 0; i < this.height; i++){
+            for (let j = 0; j < this.width; j++){
                 //random integer from 0 to 1
                 let ran = Math.floor(Math.random() * 2);
                 if (ran == 0){
@@ -110,37 +109,17 @@ function drawGrid(grid){
     }
 }
 
-function randomizeGrid(grid){
-    for (i = 0; i < grid.height; i++){
-        for (j = 0; j < grid.width; j++){
-            //random integer from 0 to 1
-            let ran = Math.floor(Math.random() * 2);
-            let currentCell = grid.gridArray[i][j];
-            if (ran == 0){
-                mainGrid.gridArray[i][j].state = "E";
-            }
-            else if (ran == 1){
-                mainGrid.gridArray[i][j].state = "W";
-            }
-            else{
-                mainGrid.gridArray[i][j].state = "F";
-            }
-        }
-    }
-}
 
 
 function setup() {
     createCanvas(320, 320);
-    mainGrid = new Grid (16, 16, 20);
-    mainGrid.createEmptyArray();
+    mainGrid = new Grid (8, 8, 20);
+    mainGrid.clearGrid();
     background(51);
-    frameRate(5);
+    frameRate(30);
 }
 
 
 function draw() {
     drawGrid(mainGrid);
-    // mainGrid.randomizeArray();
-    mainGrid.setCell(1, 1, new Cell ("W"));
 }
