@@ -20,7 +20,7 @@ class Grid {
         let ar = [];
         for (let i = 0; i < this.width; i++){
             let row = [];
-            for (let j = 0; j < this.width; j++){
+            for (let j = 0; j < this.height; j++){
                 row.push (new Cell ("E"));
             }
             ar.push(row);
@@ -32,7 +32,7 @@ class Grid {
         for (let i = 0; i < this.height; i++){
             for (let j = 0; j < this.width; j++){
                 //random integer from 0 to 1
-                let ran = Math.floor(Math.random() * 2);
+                let ran = Math.floor(Math.random() * 3);
                 if (ran == 0){
                     this.setCell(i, j, new Cell ("E"));
                 }
@@ -112,8 +112,8 @@ function drawGrid(grid){
 
 
 function setup() {
-    createCanvas(320, 320);
-    mainGrid = new Grid (8, 8, 20);
+    createCanvas(1000, 1000);
+    mainGrid = new Grid (100, 100, 10);
     mainGrid.clearGrid();
     background(51);
     frameRate(30);
@@ -122,4 +122,5 @@ function setup() {
 
 function draw() {
     drawGrid(mainGrid);
+    mainGrid.randomizeArray();
 }
