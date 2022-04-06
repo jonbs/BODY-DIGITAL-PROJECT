@@ -9,19 +9,23 @@ class Grid {
     this.cellSize = cellSize;
   }
     getCell(x, y){
-        return this.gridArray[y][x];
+        return this.gridArray[x][y];
     } 
 
     setCell(x, y, cl){
-        this.gridArray[y][x] = cl;
+        this.gridArray[x][y] = cl;
+    }
+
+    setCellSet(x, y, s){
+        this.gridArray[x][y].changeSet(s);
     }
 
     clearGrid (){
         let ar = [];
-        for (let i = 0; i < this.width; i++){
+        for (let i = 0; i < this.height; i++){
             let row = [];
-            for (let j = 0; j < this.height; j++){
-                row.push (new Cell ("E"));
+            for (let j = 0; j < this.width; j++){
+                row.push (new Cell ("E", 0));
             }
             ar.push(row);
         }
@@ -32,28 +36,48 @@ class Grid {
         for (let i = 0; i < this.height; i++){
             for (let j = 0; j < this.width; j++){
                 //random integer from 0 to 1
-                let ran = Math.floor(Math.random() * 5);
+                let ran = Math.floor(Math.random() * 20);
                 if (ran == 0){
-                    this.setCell(i, j, new Cell ("F"));
+                    this.setCell(i, j, new Cell ("F", 0));
                 }
                 else if (ran == 1){
-                    this.setCell(i, j, new Cell ("W"));
+                    this.setCell(i, j, new Cell ("W", 0));
                 }
                 else if (ran == 2){
-                    this.setCell(i, j, new Cell ("S"));
+                    this.setCell(i, j, new Cell ("S", 0 ));
                 }
                 else{
-                    this.setCell(i, j, new Cell ("E"));
+                    this.setCell(i, j, new Cell ("E", 0 ));
                 }
             }
+        }
+    }
+
+    buildOuterWall(){
+        this.gridArray[0].fill(new Cell("W", 0));
+        this.gridArray[this.gridArray.length - 1].fill(new Cell("W", 0));
+        for (let i = 0; i < this.height; i++){
+            this.gridArray[i][0] = new Cell ("W", 0);
+            this.gridArray[i][this.width - 1] = new Cell("W", 0);
+        }
+    }
+
+    eller_alg(){
+        //let firstRow = this.gridArray[0];
+        //firstRow.fill(new Cell ("W", 0));
+        
+        //creates individual sets for the first row
+        for (let i = 0; i < this.width; i++){
+
         }
     }
 }
 
 class Cell {
-    constructor(state){
+    constructor(state, set){
         this.state = state;
         this.getColor();
+        this.set = set;
     }
     getColor (){
         //empty
@@ -76,6 +100,9 @@ class Cell {
         this.color = "#1C110A";
         }
     }
+    changeSet(set){
+        this.set = set;
+    }
 }
 
 
@@ -84,11 +111,14 @@ class Cell {
 
 var mainGrid;
 
+
+
+
 function drawGrid(grid){
     for (i = 0; i < grid.height; i++){
         //draw one row
         let row = grid.gridArray[i];
-        let rowLength = row.length;
+        let rowLength = grid.width; // same as row.length
         for (j = 0; j < rowLength; j++){
             let currentCell = row[j];
             let xPos = j * grid.cellSize;
@@ -96,26 +126,25 @@ function drawGrid(grid){
             fill(currentCell.color);
             noStroke();
             square(xPos, yPos, grid.cellSize);
+            fill(255, 204, 0);
+            text(currentCell.set, xPos, yPos, grid.cellSize, grid.cellSize);
         }
     }
 }
 
-function eller_alg(grid){
-    
-}
-
-
 
 function setup() {
     createCanvas(displayWidth, displayHeight);
-    mainGrid = new Grid (100, 100, 10);
+    mainGrid = new Grid (25, 30, 10);
     mainGrid.clearGrid();
-    background(51);
+    background(120);
     frameRate(10);
 }
 
 
 function draw() {
     drawGrid(mainGrid);
-    mainGrid.randomizeArray();
+    //mainGrid.randomizeArray();
+    mainGrid.eller_alg();
+    mainGrid.buildOuterWall();
 }
